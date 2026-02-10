@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <!-- ВАЖНО для мобильных: -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Валентинка ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; /* Убирает синее выделение при тапе на телефоне */
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: background 2s ease;
+            padding: 10px; /* Добавляем отступы по краям на телефоне */
+        }
+
+        .heart {
+            position: absolute;
+            top: -50px;
+            font-size: 20px; /* Уменьшил для телефона */
+            color: #ff4081;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        .white-heart {
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.95); /* Чуть менее прозрачный для читаемости */
+            padding: 25px 20px; /* МЕНЬШЕ padding для телефона! */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 0, 100, 0.25);
+            text-align: center;
+            width: 95%; /* Чуть шире на телефоне */
+            max-width: 700px;
+            z-index: 20;
+            border: 3px solid #ff4081;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s ease;
+        }
+
+        .message-box.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .title-container {
+            margin-bottom: 20px;
+        }
+
+        .valentine-title {
+            color: #ff4081;
+            font-size: 2em; /* ВМЕСТО 3.2em для телефона! */
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-align: center;
+            line-height: 1.3;
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title-line {
+            display: block;
+            text-align: center;
+            margin: 3px 0; /* Уменьшил отступ */
+        }
+
+        .title-heart {
+            display: block;
+            font-size: 1.8em; /* Уменьшил */
+            margin: 10px auto; /* Уменьшил */
+            text-align: center;
+        }
+
+        p {
+            color: #d81b60;
+            font-size: 1.1em; /* ВМЕСТО 1.6em для телефона! */
+            margin-bottom: 25px;
+            line-height: 1.4;
+            font-weight: 500;
+            text-align: center;
+            padding: 0 5px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column; /* Кнопки в столбик на телефоне! */
+            justify-content: center;
+            align-items: center;
+            gap: 15px; /* Меньше расстояние */
+            margin-top: 25px;
+            position: relative;
+            height: auto; /* Убрал фиксированную высоту */
+            width: 100%;
+        }
+
+        .btn {
+            padding: 15px 25px; /* Меньше padding */
+            font-size: 1.2em; /* ВМЕСТО 1.6em */
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 100%; /* Кнопки на всю ширину */
+            max-width: 280px; /* Но не шире этого */
+            position: relative;
+            display: block; /* Чтобы width работал */
+        }
+
+        #openBtn {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            order: 2; /* Порядок: сначала Открыть? меняем ниже */
+        }
+
+        #closeBtn {
+            background: linear-gradient(45deg, #f44336, #EF5350);
+            color: white;
+            order: 1; /* Порядок: сначала Закрыть */
+        }
+
+        /* Убираем ховеры для телефона, оставляем active */
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .reject-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+            padding: 20px;
+        }
+
+        .reject-screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .reject-text {
+            font-size: 2.5em; /* ВМЕСТО 4.5em для телефона! */
+            color: #fff;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            letter-spacing: 4px;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            padding: 25px 20px;
+            border: 3px solid #fff;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            width: 95%;
+            word-wrap: break-word; /* Чтобы длинные слова переносились */
+        }
+
+        .final-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 2s ease;
+            pointer-events: none;
+            padding: 20px;
+        }
+
+        .final-message.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .big-heart {
+            font-size: 200px; /* ВМЕСТО 400px для телефона! */
+            color: #ff4081;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1001;
+        }
+
+        .big-heart.active {
+            opacity: 1;
+            transform: scale(1);
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+
+        .big-heart.expand {
+            animation: none !important;
+            transition: all 4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            z-index: 2000;
+        }
+
+        .big-heart.expand-to-black {
+            transform: scale(30) !important; /* ВМЕСТО 50 для телефона */
+            opacity: 1 !important;
+            color: #ff4081 !important;
+        }
+
+        .final-black-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 3000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 20px;
+        }
+
+        .final-black-screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .white-final-heart {
+            font-size: 120px; /* ВМЕСТО 200px для телефона */
+            color: white;
+            text-shadow: 0 0 50px rgba(255,255,255,0.9);
+            opacity: 0;
+            transform: scale(0);
+            animation: whiteHeartAppear 2s ease forwards 1s;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.95; }
+        }
+
+        @keyframes whiteHeartAppear {
+            0% { opacity: 0; transform: scale(0); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .love-text-container {
+            position: relative;
+            width: 95%; /* Шире на телефоне */
+            max-width: 900px;
+            min-height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .love-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 64, 129, 0.8);
+            padding: 20px 15px; /* Меньше padding */
+            background: rgba(255, 64, 129, 0.15);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 64, 129, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            font-family: 'Georgia', serif;
+            line-height: 1.3;
+            font-size: 1.8em; /* ВМЕСТО 3em для телефона! */
+            backdrop-filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            word-wrap: break-word;
+        }
+
+        .love-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 900;
+            pointer-events: none;
+            transition: background 1s ease;
+        }
+
+        .dark-overlay.active {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        /* Медиа-запрос для больших экранов (чтобы на ПК тоже было хорошо) */
+        @media (min-width: 768px) {
+            .message-box {
+                padding: 40px;
+                width: 90%;
+            }
+            
+            .valentine-title {
+                font-size: 3.2em;
+            }
+            
+            p {
+                font-size: 1.6em;
+            }
+            
+            .buttons {
+                flex-direction: row; /* На ПК кнопки в ряд */
+                height: 80px;
+                gap: 35px;
+            }
+            
+            .btn {
+                padding: 20px 50px;
+                font-size: 1.6em;
+                width: auto;
+                min-width: 180px;
+                position: absolute;
+            }
+            
+            #openBtn {
+                left: 0;
+                order: 0;
+            }
+            
+            #closeBtn {
+                right: 0;
+                order: 0;
+            }
+            
+            .reject-text {
+                font-size: 4.5em;
+                padding: 40px;
+            }
+            
+            .big-heart {
+                font-size: 400px;
+            }
+            
+            .big-heart.expand-to-black {
+                transform: scale(50) !important;
+            }
+            
+            .white-final-heart {
+                font-size: 200px;
+            }
+            
+            .love-text {
+                font-size: 3em;
+                padding: 30px 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Остальной HTML код БЕЗ ИЗМЕНЕНИЙ -->
+    <div class="dark-overlay" id="darkOverlay"></div>
+
+    <div class="message-box" id="messageBox">
+        <div class="title-container">
+            <div class="valentine-title">
+                <span class="title-line">ВАМ</span>
+                <span class="title-line">ОТПРАВЛЕНА</span>
+                <span class="title-line">ВАЛЕНТИНКА</span>
+                <div class="title-heart">❤️</div>
+            </div>
+        </div>
+        <p>Кто-то очень особенный думает о вас сегодня.<br>Откроете своё сердечное послание?</p>
+        
+        <div class="buttons">
+            <button class="btn" id="openBtn">ОТКРЫТЬ</button>
+            <button class="btn" id="closeBtn">ЗАКРЫТЬ</button>
+        </div>
+    </div>
+
+    <div class="reject-screen" id="rejectScreen">
+        <div class="reject-text">АА ЕБАТЬ ТЫ ДОЛБАЕБКА ЧТО ЛИ? ☠️</div>
+    </div>
+
+    <div class="final-message" id="finalMessage">
+        <div class="big-heart" id="bigHeart">❤️</div>
+        <div class="love-text-container">
+            <div class="love-text" id="loveText"></div>
+        </div>
+    </div>
+
+    <div class="final-black-screen" id="finalBlackScreen">
+        <div class="white-final-heart" id="whiteFinalHeart">❤️</div>
+    </div>
+
+    <script>
+        // JavaScript код БЕЗ ИЗМЕНЕНИЙ
+        const openBtn = document.getElementById('openBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const finalMessage = document.getElementById('finalMessage');
+        const loveText = document.getElementById('loveText');
+        const bigHeart = document.getElementById('bigHeart');
+        const rejectScreen = document.getElementById('rejectScreen');
+        const darkOverlay = document.getElementById('darkOverlay');
+        const messageBox = document.getElementById('messageBox');
+        const finalBlackScreen = document.getElementById('finalBlackScreen');
+        const whiteFinalHeart = document.getElementById('whiteFinalHeart');
+        const body = document.body;
+
+        let isClosed = false;
+
+        // Функция создания сердечек
+        function createFallingHeart(color = '#ff4081', isWhite = false) {
+            const heart = document.createElement('div');
+            heart.className = `heart ${isWhite ? 'white-heart' : ''}`;
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px'; // Уменьшил размер
+            heart.style.color = color;
+            heart.style.opacity = '0';
+            heart.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            heart.style.animationDelay = Math.random() + 's';
+            heart.style.animationTimingFunction = 'cubic-bezier(0.215, 0.610, 0.355, 1)';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.remove();
+                }
+            }, 7000);
+        }
+
+        // Плавное появление меню при загрузке
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                body.style.background = 'linear-gradient(135deg, #ffe6f0, #ffcce0)';
+                
+                setTimeout(() => {
+                    messageBox.classList.add('active');
+                }, 500);
+            }, 500);
+            
+            // Красные сердечки для фона
+            setInterval(() => {
+                if (!isClosed) createFallingHeart('#ff4081');
+            }, 800);
+        });
+
+        // Обработчик для кнопки "ЗАКРЫТЬ"
+        closeBtn.addEventListener('click', function() {
+            if (isClosed) return;
+            isClosed = true;
+            
+            // Скрываем меню
+            messageBox.classList.remove('active');
+            
+            // Затемняем экран
+            setTimeout(() => {
+                // ВКЛЮЧАЕМ ПОЛНЫЙ ЧЁРНЫЙ ЭКРАН
+                body.style.background = '#000';
+                rejectScreen.classList.add('active');
+                
+                // Через 3 секунды возвращаем меню без кнопки закрыть
+                setTimeout(() => {
+                    rejectScreen.classList.remove('active');
+                    
+                    setTimeout(() => {
+                        closeBtn.style.display = 'none';
+                        // На мобильных меняем порядок кнопок
+                        if (window.innerWidth < 768) {
+                            openBtn.style.width = '100%';
+                            openBtn.style.maxWidth = '280px';
+                            openBtn.textContent = "ОТКРЫТЬ ВАЛЕНТИНКУ! ❤️";
+                        } else {
+                            openBtn.style.width = '100%';
+                            openBtn.style.left = '0';
+                            openBtn.textContent = "ОТКРЫТЬ ВАЛЕНТИНКУ! ❤️";
+                        }
+                        body.style.background = 'linear-gradient(135deg, #ffe6f0, #ffcce0)';
+                        messageBox.classList.add('active');
+                    }, 1000);
+                }, 3000);
+            }, 500);
+        });
+
+        // Функция для показа сообщения с плавной анимацией
+        async function showMessage(text, index) {
+            return new Promise((resolve) => {
+                // Убираем предыдущее сообщение
+                loveText.classList.remove('active');
+                
+                setTimeout(() => {
+                    // Устанавливаем новый текст
+                    loveText.textContent = text;
+                    
+                    // Показываем новое сообщение
+                    setTimeout(() => {
+                        loveText.classList.add('active');
+                        
+                        // Ждём 3 секунды, затем убираем
+                        setTimeout(() => {
+                            loveText.classList.remove('active');
+                            setTimeout(resolve, 800);
+                        }, 3000);
+                    }, 100);
+                }, 800);
+            });
+        }
+
+        // Массив сообщений
+        const messages = [
+            "С 14 февраля, моя дорогая Мила! 💕",
+            "Ты — самое прекрасное, что случилось в моей жизни 🌟",
+            "Каждый день с тобой — это подарок судьбы 🎁",
+            "Твоя улыбка делает мой мир ярче и светлее ☀️",
+            "Ты мое самое большое счастье и любовь ❤️",
+            "Рядом с тобой я чувствую себя самым счастливым человеком 🥰",
+            "Ты невероятно красива, добра и умна 💖",
+            "Спасибо тебе за каждую улыбку, за каждую секунду вместе 🙏",
+            "Ты делаешь меня лучше каждый день 🌸",
+            "Я безумно тебя люблю и ценю каждое мгновение с тобой 💝",
+            "Ты — моя мечта, которая сбылась 🌈",
+            "Будь всегда рядом, моя самая прекрасная девочка 💗",
+            "ЛЮБЛЮ ТЕБЯ БЕЗМЕРНО МОЯ САМАЯ ЦЕННАЯ ДЕВОЧКА 💖"
+        ];
+
+        // Функция финальной сцены
+        function startFinalScene() {
+            // 1. Сердце начинает увеличиваться
+            bigHeart.classList.add('expand');
+            setTimeout(() => {
+                bigHeart.classList.add('expand-to-black');
+                
+                // 2. Через 3 секунды резкий переход в тотал блек
+                setTimeout(() => {
+                    finalMessage.style.opacity = '0';
+                    
+                    // 3. Показываем чёрный экран с белым сердцем
+                    setTimeout(() => {
+                        finalBlackScreen.classList.add('active');
+                        
+                        // 4. Начинаем ливень белых сердечек
+                        for (let i = 0; i < 200; i++) { // Немного меньше сердечек
+                            setTimeout(() => createFallingHeart('white', true), i * 20);
+                        }
+                        
+                        // Продолжаем белые сердечки
+                        setInterval(() => {
+                            createFallingHeart('white', true);
+                        }, 150);
+                    }, 500);
+                }, 3000);
+            }, 100);
+        }
+
+        // Обработчик для кнопки "ОТКРЫТЬ"
+        openBtn.addEventListener('click', async function() {
+            if (!isClosed) return;
+            
+            // Скрываем меню
+            messageBox.classList.remove('active');
+            
+            // Затемняем экран
+            darkOverlay.classList.add('active');
+            
+            // Мега взрыв красных сердечек
+            for (let i = 0; i < 120; i++) { // Немного меньше для телефона
+                setTimeout(() => createFallingHeart('#ff4081'), i * 15);
+            }
+            
+            // Показываем финальное сообщение
+            setTimeout(() => {
+                finalMessage.classList.add('active');
+                
+                // Анимация большого сердца
+                setTimeout(() => {
+                    bigHeart.classList.add('active');
+                }, 500);
+                
+                // Показываем все сообщения по очереди
+                async function showAllMessages() {
+                    for (let i = 0; i < messages.length; i++) {
+                        await showMessage(messages[i], i);
+                    }
+                    
+                    // Запускаем финальную сцену после всех сообщений
+                    startFinalScene();
+                }
+                
+                showAllMessages();
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
