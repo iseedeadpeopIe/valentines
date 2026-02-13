@@ -2,20 +2,23 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <!-- ВАЖНО для мобильных: -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Валентинка ❤️</title>
+    <title>Для Милы ❤️</title>
+    <!-- Подключаем шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             user-select: none;
-            -webkit-tap-highlight-color: transparent; /* Убирает синее выделение при тапе на телефоне */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Playfair Display', serif;
             background: #000;
             min-height: 100vh;
             overflow: hidden;
@@ -24,13 +27,14 @@
             align-items: center;
             position: relative;
             transition: background 2s ease;
-            padding: 10px; /* Добавляем отступы по краям на телефоне */
+            padding: 10px;
         }
 
+        /* ===== СЕРДЕЧКИ ===== */
         .heart {
             position: absolute;
             top: -50px;
-            font-size: 20px; /* Уменьшил для телефона */
+            font-size: 20px;
             color: #ff4081;
             opacity: 0;
             pointer-events: none;
@@ -57,13 +61,14 @@
             }
         }
 
+        /* ===== ГЛАВНОЕ МЕНЮ ===== */
         .message-box {
-            background: rgba(255, 255, 255, 0.95); /* Чуть менее прозрачный для читаемости */
-            padding: 25px 20px; /* МЕНЬШЕ padding для телефона! */
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255, 0, 100, 0.25);
             text-align: center;
-            width: 95%; /* Чуть шире на телефоне */
+            width: 95%;
             max-width: 700px;
             z-index: 20;
             border: 3px solid #ff4081;
@@ -80,89 +85,166 @@
             transform: scale(1);
         }
 
-        .title-container {
-            margin-bottom: 20px;
-        }
-
         .valentine-title {
             color: #ff4081;
-            font-size: 2em; /* ВМЕСТО 3.2em для телефона! */
-            font-weight: 800;
-            letter-spacing: 0.5px;
+            font-size: 2em;
+            font-weight: 900;
+            letter-spacing: 1px;
             text-align: center;
             line-height: 1.3;
-            display: block;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Playfair Display', serif;
         }
 
         .title-line {
             display: block;
-            text-align: center;
-            margin: 3px 0; /* Уменьшил отступ */
+            margin: 3px 0;
         }
 
         .title-heart {
-            display: block;
-            font-size: 1.8em; /* Уменьшил */
-            margin: 10px auto; /* Уменьшил */
-            text-align: center;
+            font-size: 1.8em;
+            margin: 10px auto;
+            animation: gentlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         p {
             color: #d81b60;
-            font-size: 1.1em; /* ВМЕСТО 1.6em для телефона! */
+            font-size: 1.1em;
             margin-bottom: 25px;
             line-height: 1.4;
-            font-weight: 500;
+            font-family: 'Montserrat', sans-serif;
             text-align: center;
-            padding: 0 5px;
         }
 
+        /* ===== СТАРЫЕ КНОПКИ (ВОЗВРАЩАЕМ) ===== */
         .buttons {
             display: flex;
-            flex-direction: column; /* Кнопки в столбик на телефоне! */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 15px; /* Меньше расстояние */
+            gap: 15px;
             margin-top: 25px;
             position: relative;
-            height: auto; /* Убрал фиксированную высоту */
+            height: auto;
             width: 100%;
         }
 
         .btn {
-            padding: 15px 25px; /* Меньше padding */
-            font-size: 1.2em; /* ВМЕСТО 1.6em */
+            padding: 15px 25px;
+            font-size: 1.2em;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            width: 100%; /* Кнопки на всю ширину */
-            max-width: 280px; /* Но не шире этого */
+            width: 100%;
+            max-width: 280px;
             position: relative;
-            display: block; /* Чтобы width работал */
+            display: block;
+            font-family: 'Montserrat', sans-serif;
         }
 
         #openBtn {
             background: linear-gradient(45deg, #4CAF50, #66BB6A);
             color: white;
-            order: 2; /* Порядок: сначала Открыть? меняем ниже */
         }
 
         #closeBtn {
             background: linear-gradient(45deg, #f44336, #EF5350);
             color: white;
-            order: 1; /* Порядок: сначала Закрыть */
         }
 
-        /* Убираем ховеры для телефона, оставляем active */
         .btn:active {
             transform: scale(0.95);
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
 
+        /* ===== ПОПАП С МУЗЫКОЙ ===== */
+        .music-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 5000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 20px;
+        }
+
+        .music-popup.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .music-popup-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 25px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 3px solid #ff4081;
+        }
+
+        .music-popup-content h2 {
+            color: #ff4081;
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .music-popup-content p {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .music-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .music-btn {
+            padding: 12px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            width: 120px;
+        }
+
+        #musicYes {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+        }
+
+        #musicNo {
+            background: linear-gradient(45deg, #f44336, #EF5350);
+            color: white;
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== ЭКРАН ОТКАЗА ===== */
         .reject-screen {
             position: fixed;
             top: 0;
@@ -186,11 +268,11 @@
         }
 
         .reject-text {
-            font-size: 2.5em; /* ВМЕСТО 4.5em для телефона! */
+            font-size: 2.5em;
             color: #fff;
             font-weight: 900;
             text-transform: uppercase;
-            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-family: 'Impact', sans-serif;
             letter-spacing: 4px;
             text-align: center;
             line-height: 1.2;
@@ -200,9 +282,9 @@
             background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             width: 95%;
-            word-wrap: break-word; /* Чтобы длинные слова переносились */
         }
 
+        /* ===== ФИНАЛЬНЫЙ ЭКРАН ===== */
         .final-message {
             position: fixed;
             top: 0;
@@ -226,21 +308,98 @@
             pointer-events: all;
         }
 
+        .background-heart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 400px;
+            color: rgba(255, 64, 129, 0.1);
+            z-index: 1001;
+            pointer-events: none;
+            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .background-heart.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .background-heart.pulsing {
+            animation: backgroundPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.25; }
+        }
+
+        .love-text-container {
+            width: 100%;
+            max-width: 900px;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+            position: relative;
+        }
+
+        .love-text {
+            color: white;
+            text-align: center;
+            font-weight: 900;
+            text-shadow: 0 0 30px rgba(255, 64, 129, 0.9);
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 40px;
+            border: 2px solid rgba(255, 64, 129, 0.6);
+            font-family: 'Playfair Display', serif;
+            line-height: 1.6;
+            font-size: 2.2em;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            box-shadow: 0 0 60px rgba(255, 64, 129, 0.4);
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            word-wrap: break-word;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .love-text.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
         .big-heart {
-            font-size: 200px; /* ВМЕСТО 400px для телефона! */
+            font-size: 300px;
             color: #ff4081;
-            margin-bottom: 30px;
+            margin: 30px 0;
             opacity: 0;
             transform: scale(0);
             transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             z-index: 1001;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            position: absolute;
         }
 
         .big-heart.active {
             opacity: 1;
-            transform: scale(1);
-            animation: gentlePulse 3s ease-in-out infinite;
+            transform: translate(-50%, -50%) scale(1);
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            15% { transform: translate(-50%, -50%) scale(1.3); }
+            30% { transform: translate(-50%, -50%) scale(1); }
+            45% { transform: translate(-50%, -50%) scale(1.2); }
+            60% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
 
         .big-heart.expand {
@@ -250,7 +409,7 @@
         }
 
         .big-heart.expand-to-black {
-            transform: scale(30) !important; /* ВМЕСТО 50 для телефона */
+            transform: translate(-50%, -50%) scale(30) !important;
             opacity: 1 !important;
             color: #ff4081 !important;
         }
@@ -264,6 +423,7 @@
             background: #000;
             z-index: 3000;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
@@ -278,17 +438,13 @@
         }
 
         .white-final-heart {
-            font-size: 120px; /* ВМЕСТО 200px для телефона */
+            font-size: 150px;
             color: white;
             text-shadow: 0 0 50px rgba(255,255,255,0.9);
             opacity: 0;
             transform: scale(0);
             animation: whiteHeartAppear 2s ease forwards 1s;
-        }
-
-        @keyframes gentlePulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.95; }
+            margin-bottom: 40px;
         }
 
         @keyframes whiteHeartAppear {
@@ -296,42 +452,29 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        .love-text-container {
-            position: relative;
-            width: 95%; /* Шире на телефоне */
-            max-width: 900px;
-            min-height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .love-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .final-message-text {
             color: white;
+            font-size: 2.2em;
+            font-family: 'Playfair Display', serif;
             text-align: center;
-            font-weight: bold;
-            text-shadow: 0 0 15px rgba(255, 64, 129, 0.8);
-            padding: 20px 15px; /* Меньше padding */
-            background: rgba(255, 64, 129, 0.15);
-            border-radius: 20px;
-            border: 2px solid rgba(255, 64, 129, 0.3);
+            line-height: 1.5;
+            max-width: 90%;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            padding: 20px;
+            background: rgba(255, 64, 129, 0.1);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
             opacity: 0;
             transform: translateY(30px);
-            font-family: 'Georgia', serif;
-            line-height: 1.3;
-            font-size: 1.8em; /* ВМЕСТО 3em для телефона! */
-            backdrop-filter: blur(5px);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            word-wrap: break-word;
+            animation: finalTextAppear 1.5s ease forwards 2.5s;
         }
 
-        .love-text.active {
-            opacity: 1;
-            transform: translateY(0);
+        @keyframes finalTextAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .dark-overlay {
@@ -350,23 +493,14 @@
             background: rgba(0, 0, 0, 0.9);
         }
 
-        /* Медиа-запрос для больших экранов (чтобы на ПК тоже было хорошо) */
         @media (min-width: 768px) {
-            .message-box {
-                padding: 40px;
-                width: 90%;
-            }
+            .message-box { padding: 40px; }
+            .valentine-title { font-size: 3.2em; }
+            p { font-size: 1.6em; }
             
-            .valentine-title {
-                font-size: 3.2em;
-            }
-            
-            p {
-                font-size: 1.6em;
-            }
-            
+            /* На ПК кнопки в ряд */
             .buttons {
-                flex-direction: row; /* На ПК кнопки в ряд */
+                flex-direction: row;
                 height: 80px;
                 gap: 35px;
             }
@@ -379,52 +513,34 @@
                 position: absolute;
             }
             
-            #openBtn {
-                left: 0;
-                order: 0;
-            }
+            #openBtn { left: 0; }
+            #closeBtn { right: 0; }
             
-            #closeBtn {
-                right: 0;
-                order: 0;
-            }
-            
-            .reject-text {
-                font-size: 4.5em;
-                padding: 40px;
-            }
-            
-            .big-heart {
-                font-size: 400px;
-            }
-            
-            .big-heart.expand-to-black {
-                transform: scale(50) !important;
-            }
-            
-            .white-final-heart {
-                font-size: 200px;
-            }
-            
-            .love-text {
-                font-size: 3em;
-                padding: 30px 50px;
-            }
+            .reject-text { font-size: 4.5em; padding: 40px; }
+            .background-heart { font-size: 600px; }
+            .big-heart { font-size: 400px; }
+            .big-heart.expand-to-black { transform: translate(-50%, -50%) scale(50) !important; }
+            .white-final-heart { font-size: 200px; }
+            .final-message-text { font-size: 3em; }
+            .love-text { font-size: 3em; padding: 40px 50px; }
         }
     </style>
 </head>
 <body>
-    <!-- Остальной HTML код БЕЗ ИЗМЕНЕНИЙ -->
+    <!-- Аудио (тёмный принц - цветы) -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.dropbox.com/scl/fi/i029xnjx5zibni5gx43kw/zaycev.net.mp3?rlkey=8l2zc4ggi51nn0ioewq99hfkl&st=rofnqoxl&dl=1" type="audio/mpeg">
+    </audio>
+
     <div class="dark-overlay" id="darkOverlay"></div>
 
+    <!-- ГЛАВНОЕ МЕНЮ (СТАРЫЕ КНОПКИ) -->
     <div class="message-box" id="messageBox">
-        <div class="title-container">
-            <div class="valentine-title">
-                <span class="title-line">ВАМ</span>
-                <span class="title-line">ОТПРАВЛЕНА</span>
-                <span class="title-line">ВАЛЕНТИНКА</span>
-                <div class="title-heart">❤️</div>
-            </div>
+        <div class="valentine-title">
+            <span class="title-line">ВАМ</span>
+            <span class="title-line">ОТПРАВЛЕНА</span>
+            <span class="title-line">ВАЛЕНТИНКА</span>
+            <div class="title-heart">❤️</div>
         </div>
         <p>Кто-то очень особенный думает о вас сегодня.<br>Откроете своё сердечное послание?</p>
         
@@ -434,44 +550,96 @@
         </div>
     </div>
 
-    <div class="reject-screen" id="rejectScreen">
-        <div class="reject-text">АА ЕБАТЬ ТЫ ДОЛБАЕБКА ЧТО ЛИ? ☠️</div>
-    </div>
-
-    <div class="final-message" id="finalMessage">
-        <div class="big-heart" id="bigHeart">❤️</div>
-        <div class="love-text-container">
-            <div class="love-text" id="loveText"></div>
+    <!-- ПОПАП С МУЗЫКОЙ -->
+    <div class="music-popup" id="musicPopup">
+        <div class="music-popup-content">
+            <h2>🎵 Включить музыку?</h2>
+            <p>Перед тем как ты увидишь, что дальше,<br>разреши мне включить фоновую музыку.</p>
+            <div class="music-buttons">
+                <button class="music-btn" id="musicYes">ДА</button>
+                <button class="music-btn" id="musicNo">НЕТ</button>
+            </div>
         </div>
     </div>
 
+    <!-- ЭКРАН ОТКАЗА -->
+    <div class="reject-screen" id="rejectScreen">
+        <div class="reject-text">АА ЕБАТЬ ТЫ ДОЛБАЕБКА, ЧТО ЛИ? ☠️</div>
+    </div>
+
+    <!-- ФИНАЛЬНЫЙ ЭКРАН -->
+    <div class="final-message" id="finalMessage">
+        <div class="background-heart" id="backgroundHeart">❤️</div>
+        <div class="love-text-container">
+            <div class="love-text" id="loveText"></div>
+        </div>
+        <div class="big-heart" id="bigHeart">❤️</div>
+    </div>
+
+    <!-- ПОСЛЕДНИЙ ЧЁРНЫЙ ЭКРАН -->
     <div class="final-black-screen" id="finalBlackScreen">
         <div class="white-final-heart" id="whiteFinalHeart">❤️</div>
+        <div class="final-message-text" id="finalMessageText">
+            Ещё раз с Днём всех влюблённых, моя любимая Мила! 💕<br>
+            Ты — самое лучшее, что случилось в моей жизни.<br>
+            Я безумно счастлив, что ты есть у меня.<br>
+            Ты пахнешь цветами, ты моя самая яркая краска 🌸<br>
+            Люблю тебя бесконечно! ❤️
+        </div>
     </div>
 
     <script>
-        // JavaScript код БЕЗ ИЗМЕНЕНИЙ
         const openBtn = document.getElementById('openBtn');
         const closeBtn = document.getElementById('closeBtn');
         const finalMessage = document.getElementById('finalMessage');
         const loveText = document.getElementById('loveText');
         const bigHeart = document.getElementById('bigHeart');
+        const backgroundHeart = document.getElementById('backgroundHeart');
         const rejectScreen = document.getElementById('rejectScreen');
         const darkOverlay = document.getElementById('darkOverlay');
         const messageBox = document.getElementById('messageBox');
         const finalBlackScreen = document.getElementById('finalBlackScreen');
         const whiteFinalHeart = document.getElementById('whiteFinalHeart');
+        const finalMessageText = document.getElementById('finalMessageText');
+        const musicPopup = document.getElementById('musicPopup');
+        const musicYes = document.getElementById('musicYes');
+        const musicNo = document.getElementById('musicNo');
+        const bgMusic = document.getElementById('bgMusic');
         const body = document.body;
 
         let isClosed = false;
+        let heartInterval;
+        let musicEnabled = false;
 
-        // Функция создания сердечек
+        // ===== МУЗЫКА =====
+        bgMusic.volume = 0.3;
+
+        // ===== ОБРАБОТЧИКИ МУЗЫКИ =====
+        musicYes.addEventListener('click', () => {
+            musicEnabled = true;
+            bgMusic.play()
+                .then(() => console.log('Музыка играет'))
+                .catch(e => {
+                    console.log('Ошибка воспроизведения:', e);
+                    alert('Не удалось включить музыку, но валентинка продолжается ❤️');
+                });
+            musicPopup.classList.remove('active');
+            startFinalMessages();
+        });
+
+        musicNo.addEventListener('click', () => {
+            musicEnabled = false;
+            musicPopup.classList.remove('active');
+            startFinalMessages();
+        });
+
+        // ===== ФУНКЦИЯ СОЗДАНИЯ СЕРДЕЧЕК =====
         function createFallingHeart(color = '#ff4081', isWhite = false) {
             const heart = document.createElement('div');
             heart.className = `heart ${isWhite ? 'white-heart' : ''}`;
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 20 + 15) + 'px'; // Уменьшил размер
+            heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
             heart.style.color = color;
             heart.style.opacity = '0';
             heart.style.animationDuration = (Math.random() * 4 + 3) + 's';
@@ -481,49 +649,65 @@
             document.body.appendChild(heart);
             
             setTimeout(() => {
-                if (heart.parentNode) {
-                    heart.remove();
-                }
+                if (heart.parentNode) heart.remove();
             }, 7000);
         }
 
-        // Плавное появление меню при загрузке
+        // ===== ЗАПУСКАЕМ КУЧУ СЕРДЕЧЕК =====
+        function startHeavyHearts() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => createFallingHeart('#ff4081'), i * 50);
+            }
+            
+            heartInterval = setInterval(() => {
+                const count = Math.floor(Math.random() * 6) + 3;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => createFallingHeart('#ff4081'), i * 150);
+                }
+            }, 300);
+        }
+
+        // ===== ЗАПУСКАЕМ БЕЛЫЕ СЕРДЕЧКИ =====
+        function startWhiteHearts() {
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => createFallingHeart('white', true), i * 20);
+            }
+            
+            setInterval(() => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => createFallingHeart('white', true), i * 100);
+                }
+            }, 200);
+        }
+
+        // ===== ЗАГРУЗКА СТРАНИЦЫ =====
         window.addEventListener('load', () => {
+            startHeavyHearts();
+            
             setTimeout(() => {
                 body.style.background = 'linear-gradient(135deg, #ffe6f0, #ffcce0)';
-                
-                setTimeout(() => {
-                    messageBox.classList.add('active');
-                }, 500);
+                setTimeout(() => messageBox.classList.add('active'), 500);
             }, 500);
-            
-            // Красные сердечки для фона
-            setInterval(() => {
-                if (!isClosed) createFallingHeart('#ff4081');
-            }, 800);
         });
 
-        // Обработчик для кнопки "ЗАКРЫТЬ"
+        // ===== КНОПКА "ЗАКРЫТЬ" =====
         closeBtn.addEventListener('click', function() {
             if (isClosed) return;
             isClosed = true;
             
-            // Скрываем меню
+            clearInterval(heartInterval);
             messageBox.classList.remove('active');
             
-            // Затемняем экран
             setTimeout(() => {
-                // ВКЛЮЧАЕМ ПОЛНЫЙ ЧЁРНЫЙ ЭКРАН
                 body.style.background = '#000';
                 rejectScreen.classList.add('active');
                 
-                // Через 3 секунды возвращаем меню без кнопки закрыть
                 setTimeout(() => {
                     rejectScreen.classList.remove('active');
                     
                     setTimeout(() => {
                         closeBtn.style.display = 'none';
-                        // На мобильных меняем порядок кнопок
+                        // На мобильных растягиваем кнопку
                         if (window.innerWidth < 768) {
                             openBtn.style.width = '100%';
                             openBtn.style.maxWidth = '280px';
@@ -535,116 +719,199 @@
                         }
                         body.style.background = 'linear-gradient(135deg, #ffe6f0, #ffcce0)';
                         messageBox.classList.add('active');
+                        startHeavyHearts();
                     }, 1000);
                 }, 3000);
             }, 500);
         });
 
-        // Функция для показа сообщения с плавной анимацией
+        // ===== ОПРЕДЕЛЕНИЕ ВРЕМЕНИ ПОКАЗА =====
+        function getMessageDuration(text) {
+            if (text.length > 50 || text.includes('❤️') || text.includes('💕') || text.includes('✨')) {
+                return 6000;
+            }
+            return 4000;
+        }
+
+        // ===== ПОКАЗ СООБЩЕНИЙ =====
         async function showMessage(text, index) {
             return new Promise((resolve) => {
-                // Убираем предыдущее сообщение
                 loveText.classList.remove('active');
                 
                 setTimeout(() => {
-                    // Устанавливаем новый текст
                     loveText.textContent = text;
                     
-                    // Показываем новое сообщение
                     setTimeout(() => {
                         loveText.classList.add('active');
                         
-                        // Ждём 3 секунды, затем убираем
+                        const duration = getMessageDuration(text);
                         setTimeout(() => {
                             loveText.classList.remove('active');
                             setTimeout(resolve, 800);
-                        }, 3000);
+                        }, duration);
                     }, 100);
                 }, 800);
             });
         }
 
-        // Массив сообщений
-        const messages = [
-            "С 14 февраля, моя дорогая Мила! 💕",
-            "Ты — самое прекрасное, что случилось в моей жизни 🌟",
-            "Каждый день с тобой — это подарок судьбы 🎁",
-            "Твоя улыбка делает мой мир ярче и светлее ☀️",
-            "Ты мое самое большое счастье и любовь ❤️",
-            "Рядом с тобой я чувствую себя самым счастливым человеком 🥰",
-            "Ты невероятно красива, добра и умна 💖",
-            "Спасибо тебе за каждую улыбку, за каждую секунду вместе 🙏",
-            "Ты делаешь меня лучше каждый день 🌸",
-            "Я безумно тебя люблю и ценю каждое мгновение с тобой 💝",
-            "Ты — моя мечта, которая сбылась 🌈",
-            "Будь всегда рядом, моя самая прекрасная девочка 💗",
-            "ЛЮБЛЮ ТЕБЯ БЕЗМЕРНО МОЯ САМАЯ ЦЕННАЯ ДЕВОЧКА 💖"
-        ];
-
-        // Функция финальной сцены
-        function startFinalScene() {
-            // 1. Сердце начинает увеличиваться
-            bigHeart.classList.add('expand');
+        // ===== ЗАПУСК СООБЩЕНИЙ =====
+        function startFinalMessages() {
+            finalMessage.classList.add('active');
+            
+            backgroundHeart.style.display = 'block';
             setTimeout(() => {
-                bigHeart.classList.add('expand-to-black');
-                
-                // 2. Через 3 секунды резкий переход в тотал блек
-                setTimeout(() => {
-                    finalMessage.style.opacity = '0';
-                    
-                    // 3. Показываем чёрный экран с белым сердцем
-                    setTimeout(() => {
-                        finalBlackScreen.classList.add('active');
-                        
-                        // 4. Начинаем ливень белых сердечек
-                        for (let i = 0; i < 200; i++) { // Немного меньше сердечек
-                            setTimeout(() => createFallingHeart('white', true), i * 20);
-                        }
-                        
-                        // Продолжаем белые сердечки
-                        setInterval(() => {
-                            createFallingHeart('white', true);
-                        }, 150);
-                    }, 500);
-                }, 3000);
-            }, 100);
+                backgroundHeart.classList.add('active', 'pulsing');
+            }, 500);
+            
+            async function showAllMessages() {
+                for (let i = 0; i < messages.length; i++) {
+                    await showMessage(messages[i], i);
+                }
+                startFinalScene();
+            }
+            
+            showAllMessages();
         }
 
-        // Обработчик для кнопки "ОТКРЫТЬ"
+        // ===== МАССИВ СООБЩЕНИЙ =====
+        const messages = [
+            "С 14 февраля, моя любимая Мила 💕",
+            "Ты — самое прекрасное, что случилось в моей жизни ✨",
+            "Каждый день с тобой — это подарок, который я не заслуживаю 🎁",
+            "Твоя улыбка освещает мои самые темные дни ☀️",
+            "Ты мое самое большое счастье и моя самая сильная любовь ❤️",
+            "Рядом с тобой я чувствую себя живым по-настоящему 🥰",
+            "Ты невероятно красива — внутри и снаружи, это сводит меня с ума 💖",
+            "Спасибо тебе за каждое мгновение, за каждый вздох рядом с тобой 🙏",
+            "Ты делаешь меня лучше каждый день, даже не зная об этом 🌸",
+            "Я безумно тебя люблю и боюсь представить жизнь без тебя 💝",
+            "Ты — моя мечта, которая сбылась, и я боюсь проснуться 🌈",
+            "Когда ты смеешься, мир становится ярче, честно ✨",
+            "Твои глаза — это бесконечность, в которую я готов смотреть вечно 👀",
+            "Ты моя самая ценная, самая родная, самая любимая девочка 💗",
+            "Расстояние — это просто цифры. Ты всегда рядом в моем сердце 🗺️",
+            "Я люблю тебя сильнее, чем вчера, но слабее, чем завтра 📈",
+            "Ты — причина моей улыбки каждый день 😊",
+            "Я никогда не устану говорить тебе, как ты мне важна 🗣️",
+            "Ты — мой дом, даже когда мы далеко друг от друга 🏠",
+            "Спасибо, что выбрала меня. Я постараюсь быть достойным тебя 🙌",
+            "Твои руки — самое теплое место на земле 🤲",
+            "Ты — мое вдохновение, мой покой, моя буря 🌪️",
+            "Я хочу состариться с тобой и каждый день заново влюбляться 👴👵",
+            "Ты — лучшее, что со мной случалось. Я люблю тебя ❤️",
+            "Твой голос — это музыка, которую я готов слушать бесконечно 🎵",
+            "Когда ты говоришь, у меня мурашки по коже, честно 🥹",
+            "Ты поднимаешь мне самооценку так, как никто никогда не умел 📈",
+            "Спасибо, что веришь в меня, даже когда я сам в себя не верю 🙏",
+            "Ты делаешь меня сильнее просто тем, что ты есть 💪",
+            "Я надеюсь, что когда мы встретимся, я оправдаю все твои ожидания 🤞",
+            "Я уже представляю, как мы обнимемся в первый раз, и это будет лучший момент в моей жизни 🤗",
+            "Знаешь, я никогда не думал, что можно так скучать по человеку, которого ни разу не видел вживую 😢",
+            "Но я знаю точно — когда мы встретимся, это будет стоить всего этого расстояния 🛤️",
+            "Ты — моя самая любимая, самая родная, самая красивая девочка на свете 💖",
+            "Я люблю тебя больше жизни, и это не просто слова ❤️",
+            "Ты — мое утро, мой день, моя ночь, моя вселенная 🌍",
+            "Я хочу просыпаться с тобой каждый день и засыпать тоже 🌙",
+            "Ты — моя половинка, которую я искал и нашел 💞",
+            "Спасибо тебе за то, что ты есть у меня 💕",
+            "Я обещаю, что сделаю тебя самой счастливой, когда мы будем вместе 🤵👰",
+            "Ты — мое вдохновение, моя муза, мой смысл жизни 🎨",
+            "Каждое твое сообщение делает мой день лучше 📱",
+            "Каждый твой смех — это лекарство для моей души 💊",
+            "Ты — мой личный психолог, моя поддержка, моя опора 🫂",
+            "Я никогда не устану благодарить судьбу за то, что свела нас вместе 🙌",
+            "Ты — мой самый дорогой человек, моя семья 👨‍👩‍👧",
+            "Я хочу построить с тобой будущее, о котором мы мечтаем 🏡",
+            "Ты — мое прошлое, настоящее и будущее ⏳",
+            "Я люблю тебя так сильно, что иногда это пугает меня самого 😅",
+            "Но я не хочу, чтобы это чувство уходило никогда 🥺",
+            "Ты — моя самая любимая привычка 🫶",
+            "Я не представляю свою жизнь без тебя, и не хочу представлять 🚫",
+            "Ты — мой воздух, моя вода, моя еда 🌊",
+            "Я готов свернуть горы ради тебя 🏔️",
+            "Ты — мой главный мотиватор 💪",
+            "Спасибо, что ты такая терпеливая и добрая ко мне 🥰",
+            "Я знаю, я бывает бешу, но ты все равно рядом 🫠",
+            "Ты — мое самое теплое воспоминание, хотя мы еще не виделись 🔥",
+            "Я хочу создать с тобой тысячу воспоминаний 📸",
+            "Ты — моя самая заветная мечта, которая сбылась 🌠",
+            "Я никогда не перестану удивляться, какая ты удивительная ✨",
+            "Твой характер, твой ум, твоя красота — это взрывная смесь 💥",
+            "Я безумно горжусь тобой и тем, что ты моя 🦚",
+            "Ты — мой самый ценный подарок от жизни 🎀",
+            "Я хочу, чтобы ты знала — ты нужна мне, очень ❗",
+            "Ты — причина, по которой я просыпаюсь с улыбкой 😊",
+            "Ты — причина, по которой я засыпаю с мыслью о тебе 😴",
+            "Я хочу смотреть на звезды с тобой 🌟",
+            "Я хочу гулять под дождем с тобой ☔",
+            "Я хочу встречать рассветы и провожать закаты с тобой 🌅",
+            "Я хочу быть с тобой в горе и в радости 🎭",
+            "Я хочу быть твоим плечом, на которое можно опереться 🦾",
+            "Я хочу быть твоей защитой от всего мира 🛡️",
+            "Я хочу быть твоим самым верным другом и самым любящим мужчиной 👫",
+            "Я хочу, чтобы ты была счастлива, и я сделаю для этого все 🌈",
+            "Ты — моя самая большая гордость 🏆",
+            "Ты — моя самая большая радость 🎉",
+            "Ты — моя самая большая любовь 💘",
+            "Спасибо, что ты есть у меня, спасибо, что ты моя 💗",
+            "Я люблю тебя, Мила. Сильно. Очень. Бесконечно. ♾️",
+            "Ты — моя единственная 💍",
+            "Ты — моя навсегда 🔒",
+            "Ты — моя судьба 🔮",
+            "Я верю в нас 🙏",
+            "Я верю в нашу встречу ✈️",
+            "Я верю в наше будущее 🤵👰",
+            "Я верю в тебя ❤️",
+            "Ты — самое лучшее, что со мной было 🌟",
+            "Ты — самое лучшее, что со мной будет 🔮",
+            "Ты — моя жизнь 💓",
+            "Ты — мой мир 🌍",
+            "Ты — моя вселенная 🌌",
+            "Ты пахнешь цветами, ты моя самая яркая краска 🌸",
+            "ЛЮБЛЮ ТЕБЯ БЕЗМЕРНО, МОЯ САМАЯ ЦЕННАЯ ДЕВОЧКА. НАВСЕГДА ТВОЙ 💖"
+        ];
+
+        // ===== ФИНАЛЬНАЯ СЦЕНА =====
+        function startFinalScene() {
+            backgroundHeart.style.display = 'none';
+            
+            bigHeart.style.position = 'absolute';
+            bigHeart.style.top = '50%';
+            bigHeart.style.left = '50%';
+            bigHeart.style.transform = 'translate(-50%, -50%) scale(0)';
+            bigHeart.classList.add('active');
+            
+            setTimeout(() => {
+                bigHeart.classList.add('expand');
+                
+                setTimeout(() => {
+                    bigHeart.classList.add('expand-to-black');
+                    
+                    setTimeout(() => {
+                        finalMessage.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            finalBlackScreen.classList.add('active');
+                            startWhiteHearts();
+                        }, 500);
+                    }, 3000);
+                }, 100);
+            }, 3000);
+        }
+
+        // ===== КНОПКА "ОТКРЫТЬ" =====
         openBtn.addEventListener('click', async function() {
             if (!isClosed) return;
             
-            // Скрываем меню
             messageBox.classList.remove('active');
-            
-            // Затемняем экран
             darkOverlay.classList.add('active');
             
-            // Мега взрыв красных сердечек
-            for (let i = 0; i < 120; i++) { // Немного меньше для телефона
-                setTimeout(() => createFallingHeart('#ff4081'), i * 15);
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => createFallingHeart('#ff4081'), i * 10);
             }
             
-            // Показываем финальное сообщение
             setTimeout(() => {
-                finalMessage.classList.add('active');
-                
-                // Анимация большого сердца
-                setTimeout(() => {
-                    bigHeart.classList.add('active');
-                }, 500);
-                
-                // Показываем все сообщения по очереди
-                async function showAllMessages() {
-                    for (let i = 0; i < messages.length; i++) {
-                        await showMessage(messages[i], i);
-                    }
-                    
-                    // Запускаем финальную сцену после всех сообщений
-                    startFinalScene();
-                }
-                
-                showAllMessages();
+                musicPopup.classList.add('active');
             }, 1500);
         });
     </script>
